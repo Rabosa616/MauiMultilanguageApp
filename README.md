@@ -26,4 +26,4 @@ But as you can see in the following images on iPhone does not take effect.
 ![Windows](./docs/Windows.png)
 
 ## iPhone
-![iPhone](./docs/iPhone.png)
+![iPhone](./docs/iPhone.PNG)
