@@ -59,5 +59,14 @@ namespace MauiApp1.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello World.
+        /// </summary>
+        internal static string Greetings {
+            get {
+                return ResourceManager.GetString("Greetings", resourceCulture);
+            }
+        }
     }
 }
