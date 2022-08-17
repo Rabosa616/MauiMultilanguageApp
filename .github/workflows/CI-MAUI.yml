@@ -41,6 +41,15 @@ jobs:
       - name: Build MAUI Android
         run: dotnet build ./MauiApp1/MauiApp1.csproj -c Release -f net6.0-android --no-restore
 
+      - name: Build MAUI Android
+        run: dotnet publish MauiApp1/MauiApp1.csproj -c Release -f net6.0-android --no-restore
+
+      - name: Upload Android Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: maui-android-ci-build
+          path: MauiApp1/bin/Release/net6.0-android/*Signed.a*
+
 # MAUI Windows Build
   build-windows:
     runs-on: windows-2022
@@ -53,54 +62,55 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 6.0.x
-          include-prerelease: true
 
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v1
-        with:
-            dotnet-version: 6.0.x
+      - name: Install MAUI Workload
+        run: dotnet workload install maui --ignore-failed-sources
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1.1
-        with:
-          vs-prerelease: true
-        
-      - name: Install MAUI Workloads
-        run: |
-          dotnet workload install maui --ignore-failed-sources --include-previews
       - name: Restore Dependencies
-        run: nuget restore ./MauiApp1/MauiApp1.csproj -Recursive
+        run: dotnet restore MauiApp1/MauiApp1.csproj
 
       - name: Build MAUI Windows
-        run: msbuild MauiApp1/MauiApp1.csproj /p:Configuration=Release /t:Rebuild /p:TargetFramework=net6.0-windows10.0.19041.0
+        run: dotnet publish MauiApp1/MauiApp1.csproj -c Release -f net6.0-windows10.0.19041.0 --no-restore
 
-# maui ios build
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: maui-windows-ci-build
+          path: MauiApp1/bin/Release/net6.0-windows10.0.19041.0/win10-x64/AppPackages/MauiApp*/MauiApp*.msix
+
+
+# MAUI iOS Build
   build-ios:
-    runs-on: macos-11
-    name: ios build
+    runs-on: macos-12
+    name: iOS Build
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: setup .net 6
+      - name: Setup .NET 6
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 6.0.x
-          include-prerelease: true
 
-      - name: install maui workloads
-        run: |
-          dotnet workload install ios --ignore-failed-sources
-          dotnet workload install maui --ignore-failed-sources
-      - name: restore dependencies
-        run: dotnet restore ./MauiApp1/MauiApp1.csproj
+      - name: Install MAUI Workload
+        run: dotnet workload install maui --ignore-failed-sources
 
-      - name: build maui ios
-        run: dotnet build ./MauiApp1/MauiApp1.csproj -c release -f net6.0-ios --no-restore
+      - name: Restore Dependencies
+        run: dotnet restore MauiApp1/MauiApp1.csproj
+
+      - name: Build MAUI iOS
+        run: dotnet build sMauiApp1/MauiApp1.csproj -c Release -f net6.0-ios --no-restore /p:buildForSimulator=True /p:packageApp=True /p:ArchiveOnBuild=False
+
+      - name: Upload iOS Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: maui-ios-ci-build
+          path: MauiApp1/bin/Release/net6.0-ios/iossimulator-x64/**/*.app
+
 
 # MAUI MacCatalyst Build
   build-mac:
-    runs-on: macos-11
+    runs-on: macos-12
     name: MacCatalyst Build
     steps:
       - name: Checkout
@@ -110,14 +120,19 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 6.0.x
-          include-prerelease: true
 
-      - name: Install MAUI Workloads
-        run: |
-          dotnet workload install maccatalyst --ignore-failed-sources
-          dotnet workload install maui --ignore-failed-sources
+      - name: Install MAUI Workload
+        run: dotnet workload install maui --ignore-failed-sources
+
       - name: Restore Dependencies
-        run: dotnet restore ./MauiApp1/MauiApp1.csproj
+        run: dotnet restore MauiApp1/MauiApp1.csproj
 
       - name: Build MAUI MacCatalyst
-        run: dotnet build ./MauiApp1/MauiApp1.csproj -c Release -f net6.0-maccatalyst --no-restore
+        run: dotnet publish MauiApp1/MauiApp1.csproj -c Release -f net6.0-maccatalyst --no-restore -p:BuildIpa=True
+
+      - name: Upload MacCatalyst Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: mauibeach-macos-ci-build
+          path: MauiApp1/bin/Release/net6.0-maccatalyst/maccatalyst-x64/publish/*.pkg
+
