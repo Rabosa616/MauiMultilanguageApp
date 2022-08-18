@@ -20,10 +20,10 @@ CultureInfo.DefaultThreadCurrentUICulture = culture;
 But as you can see in the following images on iPhone does not take effect.
 ## Android
 
-![Android](./docs/android.png)
+![Android](./docs/Android.png)
 
 ## Windows
-![Windows](./docs/windows.png)
+![Windows](./docs/Windows.png)
 
 ## iPhone
-![iPhone](./docs/iphone.png)
+![iPhone](./docs/iPhone.PNG)
