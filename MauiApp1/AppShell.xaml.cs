@@ -1,9 +1,11 @@
-﻿namespace MauiApp1;
+﻿using Microsoft.Maui.Controls.PlatformConfiguration;
+
+namespace MauiApp1;
 
 public partial class AppShell : Shell
 {
-	public AppShell()
-	{
-		InitializeComponent();
-	}
+    public AppShell()
+    {
+        InitializeComponent();
+    }
 }

@@ -61,11 +61,38 @@ namespace MauiApp1.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About Page.
+        /// </summary>
+        internal static string AboutPage {
+            get {
+                return ResourceManager.GetString("AboutPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hello World.
         /// </summary>
         internal static string Greetings {
             get {
                 return ResourceManager.GetString("Greetings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        internal static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main Page.
+        /// </summary>
+        internal static string MainPage {
+            get {
+                return ResourceManager.GetString("MainPage", resourceCulture);
             }
         }
     }
